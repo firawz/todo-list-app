@@ -4,7 +4,9 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
+import { Todo } from '../../../todo/entities/todo/todo';
 
 @Entity()
 export class User {
@@ -17,7 +19,7 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @Column({ select: false }) // Exclude password from being selected by default
+  @Column() // Exclude password from being selected by default
   password: string;
 
   @CreateDateColumn()
@@ -25,4 +27,7 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany(() => Todo, (todo) => todo.user)
+  todos: Todo[];
 }
